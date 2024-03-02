@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SpaceXFeed" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/spaceXBlue</item>
+        <item name="colorSecondary">@color/spaceXSilver</item>
+    </style>
+
+    <style name="toolbarTitlesStyle" parent="Base.Theme.SpaceXFeed">
+        <item name="fontFamily">@font/space_x</item>
+    </style>
+
+    <style name="Theme.SpaceXFeed" parent="Base.Theme.SpaceXFeed" />
+</resources>
