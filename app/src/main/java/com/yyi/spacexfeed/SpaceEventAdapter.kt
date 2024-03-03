@@ -6,30 +6,36 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yyi.spacexfeed.dataClasses.SpaceEvent
+import com.yyi.spacexfeed.database.MainDB
 import com.yyi.spacexfeed.databinding.SpaceEventItemBinding
 
-class SpaceEventAdapter: RecyclerView.Adapter<SpaceEventAdapter.SpaceEventHolder>() {
+class SpaceEventAdapter(var db: MainDB) :
+    RecyclerView.Adapter<SpaceEventAdapter.SpaceEventHolder>() {
 
     var spaceEvents = ArrayList<SpaceEvent>()
 
-    inner class SpaceEventHolder(item: View): RecyclerView.ViewHolder(item) {
+    inner class SpaceEventHolder(item: View) : RecyclerView.ViewHolder(item) {
         private var binding = SpaceEventItemBinding.bind(item)
 
         @SuppressLint("NotifyDataSetChanged")
-        fun bind(spaceEvent: SpaceEvent) = with(binding){
+        fun bind(spaceEvent: SpaceEvent) = with(binding) {
             eventIcon.setImageResource(spaceEvent.iconId)
             titleText.text = spaceEvent.title
             eventDate.text = spaceEvent.date
 
-            deleteItemButton.setOnClickListener{
+            deleteItemButton.setOnClickListener {
                 spaceEvents.remove(spaceEvent)
+                Thread {
+                    db.getDAO().deleteSpaceEvent(spaceEvent)
+                }.start()
                 notifyDataSetChanged()
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpaceEventHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.space_event_item, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.space_event_item, parent, false)
         return SpaceEventHolder(view)
     }
 
@@ -42,13 +48,13 @@ class SpaceEventAdapter: RecyclerView.Adapter<SpaceEventAdapter.SpaceEventHolder
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addSpaceEvent(spaceEvent: SpaceEvent){
+    fun addSpaceEvent(spaceEvent: SpaceEvent) {
         spaceEvents.add(spaceEvent)
         notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun initSpaceEventsArray(spaceEvents: ArrayList<SpaceEvent>){
+    fun initSpaceEventsArray(spaceEvents: ArrayList<SpaceEvent>) {
         this.spaceEvents = spaceEvents
         notifyDataSetChanged()
     }

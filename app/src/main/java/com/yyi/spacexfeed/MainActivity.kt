@@ -1,9 +1,10 @@
 package com.yyi.spacexfeed
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.yyi.spacexfeed.databinding.ActivityMainBinding
 import com.yyi.spacexfeed.fragments.AboutAppFragment
 import com.yyi.spacexfeed.fragments.NewsFragment
@@ -19,27 +20,35 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun init() = with(binding){
+    private fun init() = with(binding) {
         val searchField = toolbar2.menu.findItem(R.id.app_bar_search)
 
-        supportFragmentManager.beginTransaction().replace(R.id.placeHolder, NewsFragment()).commit()
-        toolbar2.title = getString(R.string.feed)
-
         bottomBar.selectedItemId = R.id.newsItem
-        bottomBar.setOnNavigationItemSelectedListener{
-            when(it.itemId){
+        searchField.setOnMenuItemClickListener {
+            Log.d("myLog", "Search Field clicked")
+            true
+        }
+
+        bottomBar.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
                 R.id.newsItem -> {
                     toolbar2.title = getString(R.string.feed)
                     searchField.setVisible(true)
-                    supportFragmentManager.beginTransaction().replace(R.id.placeHolder, NewsFragment()).commit()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.placeHolder, NewsFragment.newInstance()).commit()
                 }
 
-                R.id.favouritesItem -> Toast.makeText(this@MainActivity, "Favourites item selected!", Toast.LENGTH_SHORT).show()
+                R.id.favouritesItem -> Toast.makeText(
+                    this@MainActivity,
+                    "Favourites item selected!",
+                    Toast.LENGTH_SHORT
+                ).show()
 
                 R.id.infoItem -> {
                     toolbar2.title = getString(R.string.app_name)
                     searchField.setVisible(false)
-                    supportFragmentManager.beginTransaction().replace(R.id.placeHolder, AboutAppFragment()).commit()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.placeHolder, AboutAppFragment()).commit()
                 }
             }
             true

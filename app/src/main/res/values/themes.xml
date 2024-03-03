@@ -5,6 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/spaceXBlue</item>
         <item name="colorSecondary">@color/spaceXSilver</item>
+        <item name="android:navigationBarColor">@color/spaceXBlue</item>
     </style>
 
     <style name="toolbarTitlesStyle" parent="Base.Theme.SpaceXFeed">
