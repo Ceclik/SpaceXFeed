@@ -30,6 +30,28 @@ class SpaceEventAdapter(var db: MainDB) :
                 }.start()
                 notifyDataSetChanged()
             }
+
+            if(spaceEvent.isFavourite)
+                addToFavouritesButton.setImageResource(R.drawable.ic_liked_like)
+            else
+                addToFavouritesButton.setImageResource(R.drawable.ic_favourite)
+
+            addToFavouritesButton.setOnClickListener {
+                if(!spaceEvent.isFavourite) {
+                    spaceEvent.isFavourite = true
+                    Thread {
+                        db.getDAO().updateSpaceEvent(spaceEvent)
+                    }.start()
+                    addToFavouritesButton.setImageResource(R.drawable.ic_liked_like)
+                }
+                else{
+                    spaceEvent.isFavourite = false
+                    Thread {
+                        db.getDAO().updateSpaceEvent(spaceEvent)
+                    }.start()
+                    addToFavouritesButton.setImageResource(R.drawable.ic_favourite)
+                }
+            }
         }
     }
 
@@ -45,12 +67,6 @@ class SpaceEventAdapter(var db: MainDB) :
 
     override fun onBindViewHolder(holder: SpaceEventHolder, position: Int) {
         holder.bind(spaceEvents[position])
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun addSpaceEvent(spaceEvent: SpaceEvent) {
-        spaceEvents.add(spaceEvent)
-        notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")

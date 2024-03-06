@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.yyi.spacexfeed.databinding.ActivityMainBinding
 import com.yyi.spacexfeed.fragments.AboutAppFragment
+import com.yyi.spacexfeed.fragments.FavouritesEventsFragment
 import com.yyi.spacexfeed.fragments.NewsFragment
 import com.yyi.spacexfeed.viewModels.SpaceEventsViewModel
 
@@ -53,11 +54,12 @@ class MainActivity : AppCompatActivity() {
                         .replace(R.id.placeHolder, NewsFragment.newInstance()).commit()
                 }
 
-                R.id.favouritesItem -> Toast.makeText(
-                    this@MainActivity,
-                    "Favourites item selected!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                R.id.favouritesItem -> {
+                    toolbar2.title = getString(R.string.favourites)
+                    searchField.setVisible(false)
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.placeHolder, FavouritesEventsFragment.newInstance()).commit()
+                }
 
                 R.id.infoItem -> {
                     toolbar2.title = getString(R.string.app_name)

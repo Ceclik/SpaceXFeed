@@ -39,7 +39,7 @@ class NewsFragment : Fragment() {
         adapter = SpaceEventAdapter(db)
     }
 
-    fun initSpaceEvents(substring: String?) {
+    private fun initSpaceEvents(substring: String?) {
         if (substring == null) {
             db.getDAO().getAllItems().asLiveData().observe(requireActivity()) {
                 val existingSpaceEvents = ArrayList<SpaceEvent>()
