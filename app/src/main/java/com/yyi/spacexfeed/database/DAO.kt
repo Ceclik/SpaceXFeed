@@ -18,4 +18,7 @@ interface DAO {
 
     @Delete
     fun deleteSpaceEvent(spaceEvent: SpaceEvent)
+
+    @Query("SELECT * FROM spaceEvents WHERE title LIKE :substring || '%'")
+    fun getAllWithSubString(substring: String): Flow<List<SpaceEvent>>
 }
